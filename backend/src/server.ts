@@ -1,15 +1,12 @@
-import express from "express"
 import { config } from "dotenv"
-import cors from "cors"
-import { connectDb } from "./src/utils/db"
-
+import { connectDb } from "./utils/db"
 import { app } from "./app"
 
 
-config()
+// config({path:"./env"})
 
 const port = process.env.PORT ?? 5002
-// const app = express();
+
 
 // db connection
 
@@ -22,9 +19,9 @@ connectDb()
         })
 
     })
-    .catch( (err) =>{
+    .catch((err) => {
         console.log("MONGO db connection failed !!! ", err);
-        
+
     })
 
 
