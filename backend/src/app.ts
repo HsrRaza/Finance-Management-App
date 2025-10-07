@@ -12,10 +12,10 @@ app.use(cors({
 }))
 
 app.use(express.json( { limit:"16kb"}))
-
 app.use(express.urlencoded({extended:true, limit: "16kb"}))
-
 app.use(cookieParser())
+
+
 
 
 // routes
@@ -32,7 +32,7 @@ import expenseRoutes from "./routes/expense.routes"
 
 app.use("/api/v1/auth", authRouter)
 app.use("/api/v1/income", incomeRoutes)
-app.use("api/v1/expense", expenseRoutes)
+app.use("/api/v1/expense", expenseRoutes)
 
 
 //server uploads after

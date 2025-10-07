@@ -5,7 +5,7 @@ import {
     downloadIncomeExecel,
     deleteIncome
 
-} from "../controllers/income.controllers"
+} from "../controllers/income.controller"
 
 import { protect } from "../middleware/auth.middleware";
 
