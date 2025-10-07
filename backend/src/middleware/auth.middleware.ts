@@ -19,14 +19,14 @@ import { ApiError } from "../utils/ApiError"
     try {
         const token = req.cookies?.token || req.header("Authorization")?.replace("Bearer ", "")
 
-        console.log(token);
+        // console.log(token);
 
         if (!token) {
             throw new ApiError(401, "Unathorized request")
         }
 
         const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET as string)
-        console.log("decoded token", decodedToken);
+        // console.log("decoded token", decodedToken);
         
 
         const user = await User.findById((decodedToken as any).user).select("-password -refreshToken")

@@ -1,6 +1,7 @@
 import  express, { Application }  from "express";
 import cors from "cors"
 import cookieParser from "cookie-parser";
+import path from "path";
 
 const app:Application = express()
 app.use(cors({
@@ -22,13 +23,16 @@ import { healthRoute } from "./routes/check.routes";
 app.use("/", healthRoute)
 
 
-import authRouter from "./routes/authRoutes";
+import authRouter from "./routes/auth.routes";
 import incomeRoutes from "./routes/income.routes"
-import path from "path";
+import expenseRoutes from "./routes/expense.routes"
 
-// server uploades folder
+
+
+
 app.use("/api/v1/auth", authRouter)
-app.use("api/v1/income", incomeRoutes)
+app.use("/api/v1/income", incomeRoutes)
+app.use("api/v1/expense", expenseRoutes)
 
 
 //server uploads after

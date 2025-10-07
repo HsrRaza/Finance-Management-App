@@ -1,14 +1,20 @@
 import express from "express"
-import {} from "../controllers/income.controllers"
+import {
+    addIncome,
+    getAllIncome,
+    downloadIncomeExecel,
+    deleteIncome
+
+} from "../controllers/income.controllers"
 
 import { protect } from "../middleware/auth.middleware";
 
 const router= express.Router()
 
-router.post("/add", protect)
-router.get("/get", protect)
-router.get("/downloadExcel", protect,)
-router.delete("/:id", protect)
+router.post("/add", protect , addIncome)
+router.get("/get", protect, getAllIncome)
+router.get("/downloadExcel", protect, downloadIncomeExecel)
+router.delete("/:id", protect,deleteIncome)
 
 
 
