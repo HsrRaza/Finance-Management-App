@@ -26,6 +26,7 @@ app.use("/", healthRoute)
 import authRouter from "./routes/auth.routes";
 import incomeRoutes from "./routes/income.routes"
 import expenseRoutes from "./routes/expense.routes"
+import dashBoardRoutes from "./routes/dashboard.routes"
 
 
 
@@ -33,6 +34,7 @@ import expenseRoutes from "./routes/expense.routes"
 app.use("/api/v1/auth", authRouter)
 app.use("/api/v1/income", incomeRoutes)
 app.use("/api/v1/expense", expenseRoutes)
+app.use("/api/v1/dashboard", dashBoardRoutes)
 
 
 //server uploads after
