@@ -16,7 +16,7 @@ const Features: React.FC = () => {
             <p className='text-center text-lg  text-neutral-500'>Powerful features designed to give you complete control over your financial journey</p>
 
 
-            <div className='max-w-[60rem] mx-auto  mt-[55px]'>
+            <div className='max-w-[70rem] mx-auto  mt-[55px]'>
 
 
                 <div className='grid sm:grid-cols-3 gap-4  '>
