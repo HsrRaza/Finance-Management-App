@@ -6,7 +6,7 @@ import { SlEnergy } from "react-icons/sl";
 import { FaLock ,FaSync } from "react-icons/fa";
 
 
-const Features: React.FC = () => {
+const Features:React.FC = () => {
     return (
         <div className=' max-w-[90rem] mx-auto  h-auto pt-6 mb-1'>
 
@@ -22,7 +22,7 @@ const Features: React.FC = () => {
                 <div className='grid sm:grid-cols-3 gap-4  '>
 
                     {/* box-1 */}
-                    <div className='bg-stone-900   min-h-[150px] rounded-xl p-2 m-2'>
+                    <div className='bg-neutral-950   min-h-[150px] rounded-xl p-2 m-2'>
                         <FaArrowTrendUp className='text-4xl bg-neutral-50 rounded-lg p-1 m-2' />
                         <div className='p-2'>
                             <h3 className='text-xl font-bold text-neutral-100'>Track Income</h3>
@@ -33,7 +33,7 @@ const Features: React.FC = () => {
                     </div>
 
                     {/* box-2 */}
-                    <div className='bg-stone-900  min-h-[150px] rounded-xl p-2 m-2'>
+                    <div className='bg-neutral-950   min-h-[150px] rounded-xl p-2 m-2'>
                         <IoShield className='text-4xl bg-neutral-50 rounded-lg p-1 m-2' />
                         <div className='p-2'>
                             <h3 className='text-xl font-bold text-neutral-100'>Manage Expenses</h3>
@@ -43,7 +43,7 @@ const Features: React.FC = () => {
                     </div>
 
                     {/* box-3 */}
-                    <div className='bg-stone-900  min-h-[150px] rounded-xl p-2 m-2'>
+                    <div className='bg-neutral-950   min-h-[150px] rounded-xl p-2 m-2'>
                         <IoMdAnalytics className='text-4xl bg-neutral-50 rounded-lg p-1 m-2' />
                         <div className='p-2'>
                             <h3 className='text-xl font-bold text-neutral-100'>Visual Insights</h3>
@@ -55,7 +55,7 @@ const Features: React.FC = () => {
 
                     {/* box-4 */}
 
-                    <div className='bg-stone-900  min-h-[150px] rounded-xl p-2 m-2'>
+                    <div className='bg-neutral-950  min-h-[150px] rounded-xl p-2 m-2'>
                         <SlEnergy className='text-4xl bg-neutral-50 rounded-lg p-1 m-2 ' />
                         <div className='p-2'>
                             <h3 className='text-xl font-bold text-neutral-100'>Real-time Updates</h3>
@@ -65,7 +65,7 @@ const Features: React.FC = () => {
                     </div>
 
                     {/* box- 5  */}
-                    <div className='bg-stone-900  min-h-[150px] rounded-xl p-2 m-2'>
+                    <div className='bg-neutral-950  min-h-[150px] rounded-xl p-2 m-2'>
                         <FaLock className='text-4xl bg-neutral-50 rounded-lg p-1 m-2 ' />
                         <div className='p-2'>
                             <h3 className='text-xl font-bold text-neutral-100'>Secure & Private</h3>
@@ -75,7 +75,7 @@ const Features: React.FC = () => {
                     </div>
 
                     {/* box- 6  */}
-                    <div className='bg-stone-900 min-h-[150px] rounded-xl p-2 m-2 '>
+                    <div className='bg-neutral-950  min-h-[150px] rounded-xl p-2 m-2 '>
                         <FaSync className='text-4xl bg-neutral-50 rounded-lg p-1 m-2' />
                         <div className='p-2'>
                             <h3 className='text-xl font-bold text-neutral-100'>Auto Sync</h3>

@@ -1,24 +1,29 @@
-import Features from "./components/Features"
-import Hero from "./components/Hero"
-import Navbar from "./components/Navbar"
-import Pricing from "./components/Pricing"
-import Words from "./components/Words"
+
+
+
+import { Routes, Route } from "react-router-dom"
+
+
+import LoginPage from "./pages/LoginPage"
+import HomePage from "./pages/HomePage"
+import SignUpPage from "./pages/SignUpPage"
 function App() {
 
 
   return (
-    <div className="w-full h-full bg-black m-0 p-0 box-border">
-      <div className="border-b-1 border-neutral-700">
-        <Navbar />
-      </div>
+    <div className=" bg-black m-0 p-0 box-border">
+      
 
-      <Hero />
-      <Features/>
-      <Words/>
-      <Pricing/>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/sign" element={<SignUpPage />} />
+      </Routes>
+
 
 
     </div>
+
 
   )
 }
