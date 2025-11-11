@@ -1,28 +1,28 @@
 
+import { BrowserRouter, Route, Routes } from "react-router-dom"
+import MainLayouts from "./layouts/MainLayouts"
+import DashBoardPage from "./pages/DashBoardPage"
+import { IncomePage } from "./pages/IncomePage"
 
 
-import { Routes, Route } from "react-router-dom"
-
-
-import LoginPage from "./pages/LoginPage"
-import HomePage from "./pages/HomePage"
-import SignUpPage from "./pages/SignUpPage"
 function App() {
 
 
   return (
-    <div className=" bg-black m-0 p-0 box-border">
-      
 
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/sign" element={<SignUpPage />} />
-      </Routes>
+      <>
 
+      <BrowserRouter>
+        <Routes>
+          <Route path="/dashboard" element={<MainLayouts />}>
+            <Route index element={<DashBoardPage/>} />
+            <Route path="/dashboard/income" element={<IncomePage />} />
+          </Route>
+        </Routes>
 
+      </BrowserRouter>
 
-    </div>
+      </>
 
 
   )
