@@ -4,12 +4,13 @@ import { Card , CardHeader , CardTitle , CardDescription , CardContent } from ".
 import { Button } from "../components/ui/button"
 import { Input } from "../components/ui/input"
 import { Field , FieldGroup , FieldLabel , FieldDescription } from "../components/ui/field"
+import { Link } from "react-router-dom"
 
 const LoginPage = ({className, ...props}: any) => {
   return  (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
      <section className="flex justify-center items-center h-screen">
-       <Card>
+       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle>Login to your account</CardTitle>
           <CardDescription>
@@ -46,7 +47,7 @@ const LoginPage = ({className, ...props}: any) => {
                   Login with Google
                 </Button>
                 <FieldDescription className="text-center">
-                  Don&apos;t have an account? <a href="#">Sign up</a>
+                  Don&apos;t have an account? <Link to="/register">Sign up</Link>
                 </FieldDescription>
               </Field>
             </FieldGroup>
