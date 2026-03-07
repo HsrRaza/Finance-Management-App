@@ -10,11 +10,11 @@ interface Iincome {
 }
 
 const IncomeSchema = new mongoose.Schema({
-    userId: {
-        type: mongoose.Schema.ObjectId,
-        ref: "User",
-        required: true,
-    },
+    // userId: {
+    //     type: mongoose.Schema.ObjectId,
+    //     ref: "User",
+    //     // required: true,
+    // },
     icon: {
         type: String,
     },

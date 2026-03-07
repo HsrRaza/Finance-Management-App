@@ -12,7 +12,7 @@ export const addIncome = asyncHandler(async (req: Request, res: Response) => {
 
 
 
-    const userId = req.user.id;
+    // const userId = req.user.id;
 
     // console.log(" User in request", userId);
 
@@ -29,7 +29,7 @@ export const addIncome = asyncHandler(async (req: Request, res: Response) => {
 
 
         const newIncome = await Income.create({
-            userId,
+            // userId,
             icon,
             source,
             amount,
@@ -39,7 +39,7 @@ export const addIncome = asyncHandler(async (req: Request, res: Response) => {
 
 
 
-        // console.log("after creating income" , newIncome);
+        console.log("after creating income" , newIncome);
 
 
         if (!newIncome) {

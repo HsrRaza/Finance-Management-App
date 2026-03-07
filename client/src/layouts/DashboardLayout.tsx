@@ -13,7 +13,7 @@ const DashboardLayout = () => {
   ];
 
   return (
-    <div className="flex h-screen bg-gray-50 overflow-hidden">
+    <div className="flex h-screen bg-stone-100 overflow-hidden">
       {/* Sidebar Overlay (Mobile only) */}
       {isMobileMenuOpen && (
         <div
@@ -63,7 +63,7 @@ const DashboardLayout = () => {
       {/* Content Area */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         {/* Top Header */}
-        <header className="h-16 bg-white border-b flex items-center justify-between px-4 md:px-8 shrink-0">
+        <header className="h-16 bg-stone-100 border-b flex items-center justify-between px-4 md:px-8 shrink-0">
           <button
             className="md:hidden p-2 text-gray-600 hover:bg-gray-100 rounded-md"
             onClick={() => setIsMobileMenuOpen(true)}

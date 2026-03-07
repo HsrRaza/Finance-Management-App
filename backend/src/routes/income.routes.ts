@@ -11,7 +11,7 @@ import { protect } from "../middleware/auth.middleware";
 
 const router= express.Router()
 
-router.post("/add", protect , addIncome)
+router.post("/add" , addIncome)
 router.get("/get", protect, getAllIncome)
 router.get("/downloadExcel", protect, downloadIncomeExecel)
 router.delete("/:id", protect,deleteIncome)

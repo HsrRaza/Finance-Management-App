@@ -1,6 +1,6 @@
 const DashboardHome = () => {
   return (
-    <div>
+    <div className="">
       <h1 className="text-2xl font-bold text-gray-800 mb-6">System Overview</h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {[1, 2, 3].map((card) => (

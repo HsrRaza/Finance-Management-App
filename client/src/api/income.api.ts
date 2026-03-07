@@ -5,8 +5,8 @@ export const getIncomes = async () => {
     return response.data;
 }
 
-export const addIncome = async (income: number) => {
-    const response = await axiosInstance.post("/incomes", income);
+export const addIncome = async (source: string, amount: number) => {
+    const response = await axiosInstance.post("/income/add", { source, amount });
     return response.data;
 }
 
