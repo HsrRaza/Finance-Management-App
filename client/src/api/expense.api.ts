@@ -5,8 +5,8 @@ export const getExpenses = async () => {
     return response.data;
 }
 
-export const addExpense = async (expense: number) => {
-    const response = await axiosInstance.post("/expenses", expense);
+export const addExpense = async (category:string, amount: number) => {
+    const response = await axiosInstance.post("/expenses", {category , amount});
     return response.data;
 }
 

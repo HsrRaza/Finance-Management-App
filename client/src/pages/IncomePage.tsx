@@ -7,6 +7,10 @@ import StatsCards from "../components/DashBoard/StatsCards";
 
 
 
+
+
+
+
 interface IncomeFormData {
   amount: string;
   description: string;
@@ -95,7 +99,7 @@ const IncomePage = () => {
         </button>
       </div>
 
-      {/* --- POP-UP MODAL --- */}
+      {/* --- POP-UP MODAL --- */}  
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
           {/* 1. Dark Backdrop */}
@@ -141,6 +145,12 @@ const IncomePage = () => {
                 />
               </div>
 
+              {err && (
+                <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-600 text-sm rounded-lg">
+                  {err}
+                </div>
+              )}
+
               <div className="flex gap-3">
                 <button
                   type="button"
@@ -151,9 +161,10 @@ const IncomePage = () => {
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 px-4 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 shadow-lg shadow-blue-200"
+                  disabled={loading}
+                  className="flex-1 px-4 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 shadow-lg shadow-blue-200 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Save Income
+                  {loading ? "Saving..." : "Save Income"}
                 </button>
               </div>
             </form>
@@ -174,9 +185,9 @@ const IncomePage = () => {
       </div> */}
 
       <div className="mt-5 grid grid-cols-12 gap-6 ">
-        <StatsCards/>
+        <StatsCards />
         <Graph />
-        <RecentTransaction/>
+        <RecentTransaction />
       </div>
 
 
