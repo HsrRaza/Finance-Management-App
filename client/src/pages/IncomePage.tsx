@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, type FormEvent } from "react"
 import { addIncome } from "../api/income.api";
+import { Graph } from "../components/DashBoard/Graph";
+import RecentTransaction from "../components/DashBoard/RecentTransaction";
+import StatsCards from "../components/DashBoard/StatsCards";
 
 
 
@@ -75,7 +78,7 @@ const IncomePage = () => {
       setLoading(false)
     }
 
-    
+
   }
 
 
@@ -158,7 +161,7 @@ const IncomePage = () => {
         </div>
       )}
 
-      <div className={`grid grid-cols-12 gap-6 ${isModalOpen ? 'z-0' : 'z-10'}`}>
+      {/* <div className={`grid grid-cols-12 gap-6 `}>
         {[1, 2, 3].map((card) => (
           <div key={card} className="col-span-4 p-6 bg-white rounded-xl border border-gray-200 shadow-sm">
             <p className="text-sm text-gray-500 font-medium">Total Revenue</p>
@@ -168,6 +171,12 @@ const IncomePage = () => {
             </div>
           </div>
         ))}
+      </div> */}
+
+      <div className="mt-5 grid grid-cols-12 gap-6 ">
+        <StatsCards/>
+        <Graph />
+        <RecentTransaction/>
       </div>
 
 
