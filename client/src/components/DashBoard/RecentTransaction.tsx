@@ -4,7 +4,7 @@ import { FiDollarSign, FiMoreHorizontal } from "react-icons/fi"
 
 const RecentTransaction = () => {
     return (
-        <div className='col-span-12  rounded-xl  border border-stone-300'>
+        <div className='col-span-12  rounded-xl  border border-stone-300 bg-white/90 p-4 overflow-y-auto max-h-[400px]'>
             <div className="mb-4 ">
                 <h3 className="flex items-center gap-1.5 font-medium"><FiDollarSign /> Recent Transaction</h3>
 
@@ -42,6 +42,43 @@ const RecentTransaction = () => {
                         date={new Date(2026, 11, 8)}
                         order={5}
                     />
+                     <TabelRow
+                        src="Freelance"
+                        amt={78}
+                        date={new Date(2026, 11, 8)}
+                        order={5}
+                    />
+                     <TabelRow
+                        src="Freelance"
+                        amt={78}
+                        date={new Date(2026, 11, 8)}
+                        order={5}
+                    />
+                     <TabelRow
+                        src="Freelance"
+                        amt={78}
+                        date={new Date(2026, 11, 8)}
+                        order={5}
+                    />
+                     <TabelRow
+                        src="Freelance"
+                        amt={78}
+                        date={new Date(2026, 11, 8)}
+                        order={5}
+                    />
+                     <TabelRow
+                        src="Freelance"
+                        amt={78}
+                        date={new Date(2026, 11, 8)}
+                        order={5}
+                    />
+                     <TabelRow
+                        src="Freelance"
+                        amt={78}
+                        date={new Date(2026, 11, 8)}
+                        order={5}
+                    />
+
 
 
 
@@ -60,7 +97,7 @@ export default RecentTransaction
 
 const TableHead = () => {
     return <thead>
-        <tr className='text-sm font-normal  text-stone-500'>
+        <tr className='text-sm font-normal  text-stone-500 '>
             <th className="text-start p-1.5">Source</th>
             <th className="text-start p-1.5">Amount</th>
             <th className="text-start p-1.5">Date</th>
@@ -79,15 +116,15 @@ interface Tabel {
 }
 
 const TabelRow = ({ src, amt, date, order }: Tabel) => {
-    return <tr className = {order % 2 ? "bg-stone-200 text-sm":"text-sm"}>
-        <td className="p-1.5">{src}</td>
+    return <tr className ={`${order % 2 ? "bg-stone-100 text-sm rounded-lg":"text-sm"} border-b-8 border-transparent `}>
+        <td className="p-1.5 rounded-l-lg">{src}</td>
         <td className="p-1.5">{amt}</td>
         <td className="p-1.5">{date.toLocaleDateString()}</td>
-        <td className="p-1.5"></td>
-        <td className="w-4"></td>
-        <button className='hover:bg-stone-200 transition-colors grid place-content-center rounded text-sm size-8'>
-            <FiMoreHorizontal/>
-        </button>
+        <td className="p-1.5 text-right rounded-r-lg">
+            <button className='hover:bg-stone-300 transition-colors grid place-content-center rounded size-8'>
+                <FiMoreHorizontal />
+            </button>
+        </td>
 
     </tr>
 }

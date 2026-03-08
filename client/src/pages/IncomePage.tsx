@@ -88,7 +88,7 @@ const IncomePage = () => {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-gray-800">System Overview</h1>
         <button
-          className="px-5 py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition-all active:scale-95"
+          className="px-5 py-3 bg-blue-600 text-white rounded-lg hover:bg-slate-800 hover:text-white transition-all active:scale-95"
           onClick={() => setIsModalOpen(true)}
         >
           Add Income
@@ -107,7 +107,7 @@ const IncomePage = () => {
           {/* 2. The Form Card */}
           <div className="relative bg-stone-200 p-8 rounded-xl shadow-2xl w-full max-w-md mx-4 animate-in fade-in zoom-in duration-200">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-gray-800">Add Income</h2>
+              <h2 className="text-2xl font-bold text-gray-800 ">Add Income</h2>
               <button
                 onClick={() => setIsModalOpen(false)}
                 className="text-gray-400 hover:text-gray-600 text-2xl"
