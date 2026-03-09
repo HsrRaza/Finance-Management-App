@@ -3,6 +3,7 @@ import { FiDollarSign, FiMoreHorizontal } from "react-icons/fi"
 
 
 const RecentTransaction = () => {
+    
     return (
         <div className='col-span-12  rounded-xl  border border-stone-300 bg-white/90 p-4 overflow-y-auto max-h-[400px]'>
             <div className="mb-4 ">

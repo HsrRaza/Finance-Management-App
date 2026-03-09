@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState, type FormEvent } from "react"
-import { addIncome } from "../api/income.api";
+import { useMemo, useState, type FormEvent } from "react"
 import { Graph } from "../components/DashBoard/Graph";
 import RecentTransaction from "../components/DashBoard/RecentTransaction";
 import StatsCards from "../components/DashBoard/StatsCards";
+import useIncomeStore from "../store/incomeStore";
 
 
 
@@ -19,18 +18,45 @@ interface IncomeFormData {
 const IncomePage = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [err, setErr] = useState("")
-  const [loading, setLoading] = useState(false)
-
   const [formData, setFormData] = useState<IncomeFormData>({
     amount: "",
     description: ""
   })
 
+  const { addIncomeActions, isloading, error } = useIncomeStore()
+
+  // const total = useIncomeStore((state) => state.getTotalIncome());
+  const income=useIncomeStore((state)=>state.incomes)
+ 
+  
+  const {weekly ,today , total}=useMemo( ()=>{
+    
+    const now = new Date();
+    const todayStr = now.toDateString();
+    const sevenDaysAgo = new Date(now.setDate(now.getDate() - 7));
+
+
+    return {
+      today:income
+      .filter(i => new Date(i.createdAt).toDateString()===todayStr)
+      .reduce((acc, curr) => acc + Number(( curr.amount) || 0), 0),
+    
+     weekly: income
+        .filter(i => new Date(i.createdAt) >= sevenDaysAgo)
+        .reduce((acc, curr) => acc + (Number(curr.amount) || 0), 0),
+     
+      total:income.reduce((acc, curr) => acc + (Number(curr.amount) || 0), 0)
+        
+      }
+    
+      
+  },[income])
 
 
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+
     const { name, value } = e.target
     console.log(name, value)
 
@@ -43,49 +69,31 @@ const IncomePage = () => {
   }
 
 
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    setLoading(true)
-    setErr("")
+
     e.preventDefault()
 
     const finalAmount = parseFloat(formData.amount);
     console.log("submitting :", { ...formData, amount: finalAmount });
 
 
-    if (!finalAmount || finalAmount <= 0) {
-      setErr("Please enter a valid amount")
+    if (!finalAmount || finalAmount <= 0 || !formData.description) {
       return
     }
+    // zustand
+    const success = await addIncomeActions(formData.description, finalAmount)
+    console.log(success);
 
-    if (!formData.description) {
-      setErr("Please enter a description")
-      return
+
+    if (success) {
+      setIsModalOpen(false);
+      setFormData({ amount: "", description: "" })
     }
 
-
-    try {
-
-      const income = await addIncome(formData.description, finalAmount)
-      console.log("income added :", income.amount, income.source);
-      setIsModalOpen(false)
-      setFormData({
-        amount: "",
-        description: ""
-      })
-
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        setErr(err.message)
-      }
-
-    } finally {
-      setLoading(false)
-    }
 
 
   }
-
-
 
   return (
     <div className="relative min-h-screen ">
@@ -95,11 +103,12 @@ const IncomePage = () => {
           className="px-5 py-3 bg-blue-600 text-white rounded-lg hover:bg-slate-800 hover:text-white transition-all active:scale-95"
           onClick={() => setIsModalOpen(true)}
         >
-          Add Income
+          {isloading ? "adding" : "Add Income"}
         </button>
       </div>
+      {error && <p className="text-red-500">{error}</p>}
 
-      {/* --- POP-UP MODAL --- */}  
+      {/* --- POP-UP MODAL --- */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
           {/* 1. Dark Backdrop */}
@@ -145,9 +154,9 @@ const IncomePage = () => {
                 />
               </div>
 
-              {err && (
+              {error && (
                 <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-600 text-sm rounded-lg">
-                  {err}
+                  {error}
                 </div>
               )}
 
@@ -161,10 +170,10 @@ const IncomePage = () => {
                 </button>
                 <button
                   type="submit"
-                  disabled={loading}
+                  disabled={isloading}
                   className="flex-1 px-4 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 shadow-lg shadow-blue-200 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {loading ? "Saving..." : "Save Income"}
+                  {isloading ? "Saving..." : "Save Income"}
                 </button>
               </div>
             </form>
@@ -184,8 +193,9 @@ const IncomePage = () => {
         ))}
       </div> */}
 
+
       <div className="mt-5 grid grid-cols-12 gap-6 ">
-        <StatsCards />
+        <StatsCards total={total} weekly={weekly} today={today} />
         <Graph />
         <RecentTransaction />
       </div>

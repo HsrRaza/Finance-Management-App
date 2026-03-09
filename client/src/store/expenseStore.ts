@@ -15,9 +15,12 @@ interface ExpenseStore {
     fetchExpense: () => Promise<void>
     addnewExpense: (category: string, amount: number) => Promise<void>
     deleteExpense: (id: string) => Promise<void>
+    getTotalExpense: () => number;
+    getWeeklyExpense: () => number;
+    getTodayExpense: () => number;
 }
 
-const useExpenseStore = create<ExpenseStore>((set) => ({
+const useExpenseStore = create<ExpenseStore>((set,get) => ({
     expense: [],
     loading: false,
     error: null,
@@ -63,7 +66,42 @@ const useExpenseStore = create<ExpenseStore>((set) => ({
         } catch (error) {
             set({ error: error instanceof Error ? error.message : "An unknown error occurred", loading: false })
         }
-    }
+    },
+
+    getTotalExpense: () => {
+        const data = get().expense;
+        // We add a check (curr.amount || 0) just in case a property is missing
+        const total = data.reduce((acc, curr) => acc + (Number(curr.amount) || 0), 0);
+        console.log("CALCULATING_TOTAL:", total);
+        return total;
+    },
+
+    getWeeklyExpense: () => {
+        const now = new Date();
+        const sevenDays = new Date();
+        sevenDays.setDate(now.getDate() - 7);
+
+        const data = get().expense;
+        const filtered = data.filter(item => new Date(item.date) >= sevenDays);
+        const weeklyTotal = filtered.reduce((acc, curr) => acc + curr.amount, 0);
+
+        console.log("CALCULATING_WEEKLY:", weeklyTotal);
+        return weeklyTotal;
+    },
+
+    getTodayExpense: () => {
+        const todayStr = new Date().toDateString();
+        const data = get().expense;
+
+        const filtered = data.filter(item => {
+            // Must convert createdAt string to Date object to use .toDateString()
+            return new Date(item.date).toDateString() === todayStr;
+        });
+
+        const todayTotal = filtered.reduce((acc, curr) => acc + curr.amount, 0);
+        console.log("CALCULATING_TODAY:", todayTotal);
+        return todayTotal;
+    },
 
 
 }));
