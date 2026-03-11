@@ -1,8 +1,10 @@
 import { useMemo, useState, type FormEvent } from "react"
+import { type Income } from "../types/income";
 import { Graph } from "../components/DashBoard/Graph";
 import RecentTransaction from "../components/DashBoard/RecentTransaction";
 import StatsCards from "../components/DashBoard/StatsCards";
-import useIncomeStore from "../store/incomeStore";
+import { useIncomeQuery } from "../hooks/useIncomeQuery";
+import { useAddIncome } from "../hooks/useIncomeMutation";
 
 
 
@@ -23,34 +25,36 @@ const IncomePage = () => {
     description: ""
   })
 
-  const { addIncomeActions, isloading, error } = useIncomeStore()
+
 
   // const total = useIncomeStore((state) => state.getTotalIncome());
-  const income=useIncomeStore((state)=>state.incomes)
- 
-  
-  const {weekly ,today , total}=useMemo( ()=>{
-    
+
+  const { data: income = [] } = useIncomeQuery()
+  const addIncomeMutation = useAddIncome()
+
+
+  const { weekly, today, total } = useMemo(() => {
+
     const now = new Date();
     const todayStr = now.toDateString();
     const sevenDaysAgo = new Date(now.setDate(now.getDate() - 7));
 
 
     return {
-      today:income
-      .filter(i => new Date(i.createdAt).toDateString()===todayStr)
-      .reduce((acc, curr) => acc + Number(( curr.amount) || 0), 0),
-    
-     weekly: income
-        .filter(i => new Date(i.createdAt) >= sevenDaysAgo)
-        .reduce((acc, curr) => acc + (Number(curr.amount) || 0), 0),
-     
-      total:income.reduce((acc, curr) => acc + (Number(curr.amount) || 0), 0)
-        
-      }
-    
-      
-  },[income])
+      today: (income as Income[])
+        .filter((i: Income) => new Date(i.createdAt).toDateString() === todayStr)
+        .reduce((acc: number, curr: Income) => acc + Number((curr.amount) || 0), 0),
+
+      weekly: (income as Income[])
+        .filter((i: Income) => new Date(i.createdAt) >= sevenDaysAgo)
+        .reduce((acc: number, curr: Income) => acc + (Number(curr.amount) || 0), 0),
+
+      total: (income as Income[]).reduce((acc: number, curr: Income) => acc + (Number(curr.amount) || 0), 0)
+
+    }
+
+
+  }, [income])
 
 
 
@@ -81,15 +85,16 @@ const IncomePage = () => {
     if (!finalAmount || finalAmount <= 0 || !formData.description) {
       return
     }
-    // zustand
-    const success = await addIncomeActions(formData.description, finalAmount)
-    console.log(success);
+
+    // tanstacKQuery 
+    await addIncomeMutation.mutate({
+      source: formData.description,
+      amount: finalAmount,
+    })
 
 
-    if (success) {
-      setIsModalOpen(false);
-      setFormData({ amount: "", description: "" })
-    }
+    setIsModalOpen(false);
+    setFormData({ amount: "", description: "" });
 
 
 
@@ -103,10 +108,12 @@ const IncomePage = () => {
           className="px-5 py-3 bg-blue-600 text-white rounded-lg hover:bg-slate-800 hover:text-white transition-all active:scale-95"
           onClick={() => setIsModalOpen(true)}
         >
-          {isloading ? "adding" : "Add Income"}
+          {addIncomeMutation.isPending ? "saving" : "Save Income"}
         </button>
       </div>
-      {error && <p className="text-red-500">{error}</p>}
+      {addIncomeMutation.error && (
+        <p className="text-red-500">{addIncomeMutation.error.message}</p>
+      )}
 
       {/* --- POP-UP MODAL --- */}
       {isModalOpen && (
@@ -154,9 +161,9 @@ const IncomePage = () => {
                 />
               </div>
 
-              {error && (
+              {addIncomeMutation.error && (
                 <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-600 text-sm rounded-lg">
-                  {error}
+                  {addIncomeMutation.error.message}
                 </div>
               )}
 
@@ -170,10 +177,10 @@ const IncomePage = () => {
                 </button>
                 <button
                   type="submit"
-                  disabled={isloading}
+                  disabled={addIncomeMutation.isPending}
                   className="flex-1 px-4 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 shadow-lg shadow-blue-200 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isloading ? "Saving..." : "Save Income"}
+                  {addIncomeMutation.isPending ? "Saving..." : "Save Income"}
                 </button>
               </div>
             </form>

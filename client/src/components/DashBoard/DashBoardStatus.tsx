@@ -8,14 +8,14 @@ import useIncomeStore from '../../store/incomeStore';
 
 const DashBoardStatus = () => {
 
-    const totalIncome = useIncomeStore((state) => state.getTotalIncome());
+    // const totalIncome = useIncomeStore((state) => state.getTotalIncom    e());
     // const totalExpense = useExpenseStore((state) => state.getTotalExpense());
 
    
 
     return (
         <>
-            <Card title='Total Income' value={totalIncome} pillText='12.5%' trend='up' />
+            <Card title='Total Income' value={0} pillText='12.5%' trend='up' />
             <Card title='Total Expense' value={0} pillText='12.5%' trend='down' />
         </>
     )

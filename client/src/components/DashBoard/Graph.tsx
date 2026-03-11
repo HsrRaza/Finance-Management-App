@@ -1,5 +1,8 @@
 
 import { FiUser } from "react-icons/fi";
+import { useMemo } from "react";
+
+
 import {
   XAxis,
   YAxis,
@@ -9,46 +12,41 @@ import {
   Line,
   LineChart,
 } from "recharts";
+import { useIncomeQuery } from "../../hooks/useIncomeQuery";
 
-const data = [
-  {
-    name: "Jan",
-    Returning: 275,
-    New: 41,
-  },
-  {
-    name: "Feb",
-    Returning: 620,
-    New: 96,
-  },
-  {
-    name: "Mar",
-    Returning: 202,
-    New: 192,
-  },
-  {
-    name: "Apr",
-    Returning: 500,
-    New: 50,
-  },
-  {
-    name: "May",
-    Returning: 355,
-    New: 400,
-  },
-  {
-    name: "Jun",
-    Returning: 875,
-    New: 200,
-  },
-  {
-    name: "Jul",
-    Returning: 700,
-    New: 205,
-  },
-];
+
+
+
+
+
 
 export const Graph = () => {
+
+  const {data:incomes = [] , isLoading} = useIncomeQuery()
+
+  const chartData = useMemo(()=>{
+     const grouped:Record<string, number> ={}
+
+
+     incomes.forEach((txn:any)=>{
+        const day = new Date(txn.createdAt).toLocaleDateString("en-US",{
+          weekday:"short"
+        })
+
+        if(!grouped[day]){
+          grouped[day] = 0
+        }
+        grouped[day] += Number(txn.amount)
+     })
+
+     return Object.entries(grouped).map(([day, amount])=>({
+      name:day,
+      New:amount
+     }))
+  },[incomes])
+
+  if(isLoading) return <p>Loading...</p>
+  
   return (
     <div className="col-span-8 overflow-hidden  border border-stone-300 rounded-xl bg-white/90">
       <div className="p-4">
@@ -62,7 +60,7 @@ export const Graph = () => {
           <LineChart
             width={500}
             height={400}
-            data={data}
+            data={chartData}
             margin={{
               top: 0,
               right: 0,
@@ -95,7 +93,7 @@ export const Graph = () => {
             />
             <Line
               type="monotone"
-              dataKey="Returning"
+              dataKey="income"
               stroke="#5b21b6"
               fill="#5b21b6"
             />

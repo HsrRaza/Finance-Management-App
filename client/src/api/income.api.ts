@@ -1,7 +1,8 @@
 import axiosInstance from "../utils/axiosInstance";
+import { type Income } from "../types/income";
 
-export const getIncomes = async () => {
-    const response = await axiosInstance.get("/incomes");
+export const getIncomes = async (): Promise<Income[]> => {
+    const response = await axiosInstance.get("/income/get");
     return response.data;
 }
 
