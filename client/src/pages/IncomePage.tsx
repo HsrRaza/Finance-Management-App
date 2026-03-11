@@ -1,5 +1,4 @@
 import { useMemo, useState, type FormEvent } from "react"
-import { type Income } from "../types/income";
 import { Graph } from "../components/DashBoard/Graph";
 import RecentTransaction from "../components/DashBoard/RecentTransaction";
 import StatsCards from "../components/DashBoard/StatsCards";
@@ -8,7 +7,15 @@ import { useAddIncome } from "../hooks/useIncomeMutation";
 
 
 
-
+export interface Income {
+  _id: string;
+  source: string;
+  amount: number;
+  icon?: string;
+  userId: string;
+  createdAt: string;
+  updatedAt: string;
+}
 
 
 
@@ -87,7 +94,7 @@ const IncomePage = () => {
     }
 
     // tanstacKQuery 
-    await addIncomeMutation.mutate({
+     addIncomeMutation.mutate({
       source: formData.description,
       amount: finalAmount,
     })

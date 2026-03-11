@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Outlet, NavLink } from "react-router-dom";
 import { LayoutDashboard, BarChart3, Settings, Menu, LogOut } from "lucide-react"; // npm install lucide-react
+import { useMe } from "../hooks/useMe";
 
 const DashboardLayout = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -11,6 +12,11 @@ const DashboardLayout = () => {
     { to: "/dashboard/expenses", label: "Expenses", icon: <BarChart3 size={20} /> },
     { to: "/dashboard/settings", label: "Settings", icon: <Settings size={20} /> },
   ];
+
+
+  const {data: user , isLoading} = useMe()
+  console.log(user);
+  
 
   return (
     <div className="flex h-screen bg-stone-100 overflow-hidden">
@@ -73,11 +79,13 @@ const DashboardLayout = () => {
 
           <div className="flex items-center gap-4 ml-auto">
             <div className="text-right hidden sm:block">
-              <p className="text-sm font-semibold text-gray-700">Alex Johnson</p>
+              <p className="text-sm font-semibold text-gray-700">{
+user?.name || "user"
+}</p>
               <p className="text-xs text-gray-500">Admin</p>
             </div>
             <img
-              src="https://ui-avatars.com/api/?name=Alex+Johnson&background=0D8ABC&color=fff"
+              src={`https://ui-avatars.com/api/?name=${user?.name || "user"}&background=0D8ABC&color=fff`}
               alt="Avatar"
               className="w-10 h-10 rounded-full border border-gray-200"
             />

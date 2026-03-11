@@ -3,7 +3,7 @@ import { getIncomes } from "../api/income.api";
 
 export const useIncomeQuery = () => {
    return useQuery({
-    queryKey:["income"],
+    queryKey:["incomes"],
     queryFn:getIncomes,
     staleTime:1000*60*5,
    })    

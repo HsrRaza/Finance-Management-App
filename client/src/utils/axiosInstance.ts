@@ -1,4 +1,5 @@
 import axios from "axios";
+import useAuthStore from "../store/authStore";
 
 const axiosInstance = axios.create({
     baseURL: "http://localhost:5001/api/v1",
@@ -6,6 +7,15 @@ const axiosInstance = axios.create({
         "Content-Type": "application/json",
     },
     withCredentials: true,
+});
+
+axiosInstance.interceptors.request.use((config) => {
+   
+  const token = useAuthStore.getState().accessToken
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
 });
 
 axiosInstance.interceptors.response.use(

@@ -13,6 +13,7 @@ import {
   LineChart,
 } from "recharts";
 import { useIncomeQuery } from "../../hooks/useIncomeQuery";
+import { generateLast7DaysData } from "../../utils/generateChartData";
 
 
 
@@ -25,24 +26,7 @@ export const Graph = () => {
   const {data:incomes = [] , isLoading} = useIncomeQuery()
 
   const chartData = useMemo(()=>{
-     const grouped:Record<string, number> ={}
-
-
-     incomes.forEach((txn:any)=>{
-        const day = new Date(txn.createdAt).toLocaleDateString("en-US",{
-          weekday:"short"
-        })
-
-        if(!grouped[day]){
-          grouped[day] = 0
-        }
-        grouped[day] += Number(txn.amount)
-     })
-
-     return Object.entries(grouped).map(([day, amount])=>({
-      name:day,
-      New:amount
-     }))
+    return generateLast7DaysData(incomes)
   },[incomes])
 
   if(isLoading) return <p>Loading...</p>
@@ -87,16 +71,17 @@ export const Graph = () => {
             />
             <Line
               type="monotone"
-              dataKey="New"
+              dataKey="income"
               stroke="#18181b"
               fill="#18181b"
+              dot={{r:2}}
             />
-            <Line
+            {/* <Line
               type="monotone"
               dataKey="income"
               stroke="#5b21b6"
               fill="#5b21b6"
-            />
+            /> */}
           </LineChart>
         </ResponsiveContainer>
       </div>

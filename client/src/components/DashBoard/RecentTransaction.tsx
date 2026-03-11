@@ -1,98 +1,42 @@
-
-import { FiDollarSign, FiMoreHorizontal } from "react-icons/fi"
-
+import { FiDollarSign, FiMoreHorizontal } from "react-icons/fi";
+import { useIncomeQuery } from "../../hooks/useIncomeQuery";
 
 const RecentTransaction = () => {
-    
-    return (
-        <div className='col-span-12  rounded-xl  border border-stone-300 bg-white/90 p-4 overflow-y-auto max-h-[400px]'>
-            <div className="mb-4 ">
-                <h3 className="flex items-center gap-1.5 font-medium"><FiDollarSign /> Recent Transaction</h3>
 
-            </div>
-            <table className="w-full table-auto">
-                <TableHead />
-                <tbody>
-                    <TabelRow
-                        src="Freelance"
-                        amt={78}
-                        date={new Date(2026, 11, 8)}
-                        order={1}
-                    />
-                    <TabelRow
-                        src="Freelance"
-                        amt={78}
-                        date={new Date(2026, 11, 8)}
-                        order={2}
-                    />
-                    <TabelRow
-                        src="Freelance"
-                        amt={78}
-                        date={new Date(2026, 11, 8)}
-                        order={3}
-                    />
-                    <TabelRow
-                        src="Freelance"
-                        amt={78}
-                        date={new Date(2026, 11, 8)}
-                        order={4}
-                    />
-                    <TabelRow
-                        src="Freelance"
-                        amt={78}
-                        date={new Date(2026, 11, 8)}
-                        order={5}
-                    />
-                     <TabelRow
-                        src="Freelance"
-                        amt={78}
-                        date={new Date(2026, 11, 8)}
-                        order={5}
-                    />
-                     <TabelRow
-                        src="Freelance"
-                        amt={78}
-                        date={new Date(2026, 11, 8)}
-                        order={5}
-                    />
-                     <TabelRow
-                        src="Freelance"
-                        amt={78}
-                        date={new Date(2026, 11, 8)}
-                        order={5}
-                    />
-                     <TabelRow
-                        src="Freelance"
-                        amt={78}
-                        date={new Date(2026, 11, 8)}
-                        order={5}
-                    />
-                     <TabelRow
-                        src="Freelance"
-                        amt={78}
-                        date={new Date(2026, 11, 8)}
-                        order={5}
-                    />
-                     <TabelRow
-                        src="Freelance"
-                        amt={78}
-                        date={new Date(2026, 11, 8)}
-                        order={5}
-                    />
+  const { data: incomes = [], isLoading } = useIncomeQuery();
 
+  if (isLoading) return <p>Loading...</p>;
 
+  return (
+    <div className='col-span-12 rounded-xl border border-stone-300 bg-white/90 p-4 overflow-y-auto max-h-[400px]'>
 
+      <div className="mb-4">
+        <h3 className="flex items-center gap-1.5 font-medium">
+          <FiDollarSign /> Recent Transaction
+        </h3>
+      </div>
 
-                </tbody>
-            </table>
+      <table className="w-full table-auto">
+        <TableHead />
 
-        </div>
-    )
-}
+        <tbody>
+          {incomes.map((income, index) => (
+            <TabelRow
+              key={income._id}
+              src={income.source}
+              amt={income.amount}
+              date={new Date(income.createdAt)}
+              order={index + 1}
+            />
+          ))}
+        </tbody>
 
+      </table>
+    </div>
+  );
+};
 
-
-export default RecentTransaction
+export default RecentTransaction;
 
 
 

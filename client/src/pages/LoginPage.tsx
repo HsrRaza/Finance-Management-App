@@ -1,62 +1,76 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { cn } from "../lib/utils"
-import { Card , CardHeader , CardTitle , CardDescription , CardContent } from "../components/ui/card"
-import { Button } from "../components/ui/button"
-import { Input } from "../components/ui/input"
-import { Field , FieldGroup , FieldLabel , FieldDescription } from "../components/ui/field"
-import { Link } from "react-router-dom"
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useLogin } from "../hooks/useLogin";
 
-const LoginPage = ({className, ...props}: any) => {
-  return  (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
-     <section className="flex justify-center items-center h-screen">
-       <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle>Login to your account</CardTitle>
-          <CardDescription>
-            Enter your email below to login to your account
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form>
-            <FieldGroup>
-              <Field>
-                <FieldLabel htmlFor="email">Email</FieldLabel>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="m@example.com"
-                  required
-                />
-              </Field>
-              <Field>
-                <div className="flex items-center">
-                  <FieldLabel htmlFor="password">Password</FieldLabel>
-                  <a
-                    href="#"
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                  >
-                    Forgot your password?
-                  </a>
-                </div>
-                <Input id="password" type="password" required />
-              </Field>
-              <Field>
-                <Button type="submit">Login</Button>
-                <Button variant="outline" type="button">
-                  Login with Google
-                </Button>
-                <FieldDescription className="text-center">
-                  Don&apos;t have an account? <Link to="/register">Sign up</Link>
-                </FieldDescription>
-              </Field>
-            </FieldGroup>
-          </form>
-        </CardContent>
-      </Card>
-     </section>
+const LoginPage = () => {
+  const navigate = useNavigate();
+  const loginMutation = useLogin();
+
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      await loginMutation.mutateAsync(formData);
+
+      // redirect after login
+      navigate("/dashboard");
+
+    } catch (error) {
+      console.log("Login failed");
+    }
+  };
+
+  return (
+    <div className="max-w-md mx-auto mt-20 bg-white p-6 rounded-lg shadow">
+      <h2 className="text-xl font-bold mb-4">Login</h2>
+
+      <form onSubmit={handleSubmit}>
+        <input
+          name="email"
+          type="email"
+          placeholder="Email"
+          className="w-full p-2 border mb-3"
+          value={formData.email}
+          onChange={handleChange}
+        />
+
+        <input
+          name="password"
+          type="password"
+          placeholder="Password"
+          className="w-full p-2 border mb-3"
+          value={formData.password}
+          onChange={handleChange}
+        />
+
+        <button
+          type="submit"
+          disabled={loginMutation.isPending}
+          className="w-full bg-blue-600 text-white p-2 rounded"
+        >
+          {loginMutation.isPending ? "Logging in..." : "Login"}
+        </button>
+
+        {loginMutation.isError && (
+          <p className="text-red-500 mt-2">
+            Login failed. Check your credentials.
+          </p>
+        )}
+      </form>
     </div>
-  )
-}
+  );
+};
 
-export default LoginPage
+export default LoginPage;

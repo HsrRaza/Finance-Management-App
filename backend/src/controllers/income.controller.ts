@@ -12,9 +12,9 @@ export const addIncome = asyncHandler(async (req: Request, res: Response) => {
 
 
 
-    // const userId = req.user.id;
+    const userId = req.user.id;
 
-    // console.log(" User in request", userId);
+    console.log(" User in request", userId);
 
 
     try {
@@ -29,11 +29,11 @@ export const addIncome = asyncHandler(async (req: Request, res: Response) => {
 
 
         const newIncome = await Income.create({
-            // userId,
+            userId,
             icon,
             source,
             amount,
-            date: new Date().toISOString().split("T")[0],
+            date: new Date(),
 
         });
 
@@ -49,7 +49,7 @@ export const addIncome = asyncHandler(async (req: Request, res: Response) => {
         //   console.log("finished income");
 
 
-        return res.status(200).json(new ApiResponse(201, newIncome, "Income created successfully "))
+        return res.status(200).json(new ApiResponse(200, newIncome, "Income created successfully "))
 
 
 
