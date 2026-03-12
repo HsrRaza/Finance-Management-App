@@ -33,14 +33,14 @@ export const Graph = () => {
   if(isLoading) return <p>Loading...</p>
   
   return (
-    <div className="col-span-8 overflow-hidden  border border-stone-300 rounded-xl bg-white/90">
+    <div className="col-span-8 min-w-0 overflow-hidden  border border-stone-300 rounded-xl bg-white/90 ">
       <div className="p-4">
         <h3 className="flex items-center gap-1.5 font-medium">
           <FiUser /> Activity
         </h3>
       </div>
 
-      <div className="h-64 px-4">
+      <div className="h-64 px-4 min-h-[250px]">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart
             width={500}
