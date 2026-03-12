@@ -12,6 +12,8 @@ export const registerUser = async(name:string, email:string, password:string)=>{
 
 export const getMe = async()=>{
     const response = await axiosInstance.get("/auth/me");
+    console.log("ME Response ", response.data);
+    
     return response.data.data;
 }
 

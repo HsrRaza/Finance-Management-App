@@ -94,7 +94,11 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
 
 export const getUserInfo = asyncHandler(async (req: Request, res: Response) => {
 
-    const user = await User.findById(req.user.id).select("-password");
+    // const user = await User.findById(req.user.id).select("-password");
+
+    const user = req.user;
+    // console.log("user", user);
+
 
     if (!user) {
         throw new ApiError(404, "User not found ");

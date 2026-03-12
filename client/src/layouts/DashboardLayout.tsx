@@ -3,6 +3,7 @@ import { Outlet, NavLink } from "react-router-dom";
 import { LayoutDashboard, BarChart3, Settings, Menu, LogOut } from "lucide-react"; // npm install lucide-react
 import { useMe } from "../hooks/useMe";
 
+
 const DashboardLayout = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -14,9 +15,8 @@ const DashboardLayout = () => {
   ];
 
 
-  const {data: user , isLoading} = useMe()
-  console.log(user);
-  
+ 
+  const {data:user} = useMe();
 
   return (
     <div className="flex h-screen bg-stone-100 overflow-hidden">

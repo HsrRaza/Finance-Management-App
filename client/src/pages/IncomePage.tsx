@@ -1,9 +1,9 @@
 import { useMemo, useState, type FormEvent } from "react"
-import { Graph } from "../components/DashBoard/Graph";
-import RecentTransaction from "../components/DashBoard/RecentTransaction";
-import StatsCards from "../components/DashBoard/StatsCards";
+import RecentTransaction from "../components/RecentTransaction";
+import StatsCards from "../components/StatsCards";
 import { useIncomeQuery } from "../hooks/useIncomeQuery";
 import { useAddIncome } from "../hooks/useIncomeMutation";
+import { Graph } from "../components/Graph";
 
 
 
@@ -34,9 +34,8 @@ const IncomePage = () => {
 
 
 
-  // const total = useIncomeStore((state) => state.getTotalIncome());
 
-  const { data: income = [] } = useIncomeQuery()
+  const { data: income = [] ,isLoading } = useIncomeQuery()
   const addIncomeMutation = useAddIncome()
 
 
@@ -211,7 +210,7 @@ const IncomePage = () => {
       <div className="mt-5 grid grid-cols-12 gap-6 ">
         <StatsCards total={total} weekly={weekly} today={today} />
         <Graph />
-        <RecentTransaction />
+        <RecentTransaction incomes={income} isLoading={isLoading}/>
       </div>
 
 

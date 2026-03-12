@@ -11,7 +11,7 @@ const router = Router()
 
 router.post("/signup", signup)
 router.post("/login", loginUser)
-router.get("/getUser", protect, getUserInfo)
+router.get("/me", protect, getUserInfo)
 router.post("upload-image", upload.single("image"), (req, res) => {
     if (!req.file) {
         return res.status(400).json(new ApiResponse(400, "No file uploaded"))

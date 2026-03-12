@@ -12,8 +12,9 @@ import {
   Line,
   LineChart,
 } from "recharts";
-import { useIncomeQuery } from "../../hooks/useIncomeQuery";
-import { generateLast7DaysData } from "../../utils/generateChartData";
+import { useIncomeQuery } from "../hooks/useIncomeQuery";
+import { generateLast7DaysData } from "../utils/generateChartData";
+
 
 
 

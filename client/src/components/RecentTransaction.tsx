@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FiDollarSign, FiMoreHorizontal } from "react-icons/fi";
-import { useIncomeQuery } from "../../hooks/useIncomeQuery";
 
-const RecentTransaction = () => {
 
-  const { data: incomes = [], isLoading } = useIncomeQuery();
+const RecentTransaction = ({incomes ,isLoading}: {incomes:any[] , isLoading:boolean}) => {
+
+  // const { data: incomes = [], isLoading } = useIncomeQuery();
 
   if (isLoading) return <p>Loading...</p>;
 

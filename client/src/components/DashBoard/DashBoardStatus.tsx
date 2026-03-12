@@ -1,6 +1,6 @@
 
 import { FiTrendingDown, FiTrendingUp } from 'react-icons/fi'
-import useIncomeStore from '../../store/incomeStore';
+import { useDashBoardQuery } from '../../hooks/useDashBoardQuery';
 
 
 
@@ -8,15 +8,14 @@ import useIncomeStore from '../../store/incomeStore';
 
 const DashBoardStatus = () => {
 
-    // const totalIncome = useIncomeStore((state) => state.getTotalIncom    e());
-    // const totalExpense = useExpenseStore((state) => state.getTotalExpense());
-
+    const {data} = useDashBoardQuery()
    
 
     return (
         <>
-            <Card title='Total Income' value={0} pillText='12.5%' trend='up' />
-            <Card title='Total Expense' value={0} pillText='12.5%' trend='down' />
+            <Card title='Total Income' value={data?.totalIncome} pillText='12.5%' trend='up' />
+            <Card title='Total Expense' value={data?.totalExpense} pillText='12.5%' trend='down' />
+            <Card title='Total Balance' value={data?.totalBalance} pillText='12.5%' trend='up' />
         </>
     )
 }
@@ -31,7 +30,7 @@ const Card = ({ title, value, pillText, trend }: { title: string, value: number,
         currency: "USD"
     })
     return (
-        <div className='p-4 col-span-6 border border-stone-300  bg-white/90 rounded-xl'>
+        <div className='p-4 col-span-4 border border-stone-300  bg-white/90 rounded-xl'>
             <div className='flex mb-8 items-start justify-between'>
                 <div>
 

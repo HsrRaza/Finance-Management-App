@@ -6,6 +6,7 @@ export const useMe = () => {
 
   const token = useAuthStore.getState().accessToken
 
+
     return useQuery({
         queryKey: ["me"],
         queryFn:getMe,

@@ -9,6 +9,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import DashboardHome from "./pages/DashboardHome";
 import IncomePage from "./pages/IncomePage";
+import AuthGuard from "./components/auth/AuthGard";
 
 const router = createBrowserRouter([
   {
@@ -16,17 +17,23 @@ const router = createBrowserRouter([
     element: <PublicLayout />,
     children: [
       { index: true, element: <HomePage /> },
-      { path: "login", element: <LoginPage /> } ,
-      { path: "register", element: <RegisterPage /> } ,
+      { path: "login", element: <LoginPage /> },
+      { path: "register", element: <RegisterPage /> },
     ],
   },
   {
     path: "/dashboard",
-    element: <DashboardLayout />,
+    element: <AuthGuard />,
     children: [
-      { index: true, element: <DashboardHome /> },
-      { path: "income", element: <IncomePage /> },
-    //   { path: "settings", element: <SettingsPage /> },
+      {
+        element: <DashboardLayout />,
+        children: [
+          { index: true, element: <DashboardHome /> },
+          { path: "income", element: <IncomePage /> },
+
+        ],
+        //   { path: "settings", element: <SettingsPage /> },
+      },
     ],
   },
   // Redirect 404s to home

@@ -7,8 +7,8 @@ const LoginPage = () => {
   const loginMutation = useLogin();
 
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+    email: "a@gmail.com",
+    password: "123456",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
