@@ -21,7 +21,7 @@ const [isMobileMenuOpen ,setIsMobileMenuOpen] = useState(false)
       {/* Content Area */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         {/* Top Header */}
-        <header className="h-16 bg-stone-100 border-b flex items-center justify-between px-4 md:px-8 shrink-0">
+        <header className="h-16 bg-slate-50 border-b flex items-center justify-between px-4 md:px-8 shrink-0">
           <button
             className="md:hidden p-2 text-gray-600 hover:bg-gray-100 rounded-md"
             onClick={() => setIsMobileMenuOpen(true)}
@@ -45,7 +45,7 @@ const [isMobileMenuOpen ,setIsMobileMenuOpen] = useState(false)
         </header>
 
         {/* Dynamic Page Content */}
-        <main className="flex-1 overflow-y-hidden p-4 md:p-8">
+        <main className="flex-1 overflow-y-hidden p-4 md:p-8 bg-slate-100">
           <div className="mx-auto">
             <Outlet />
           </div>

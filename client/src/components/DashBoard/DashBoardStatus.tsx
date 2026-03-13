@@ -1,5 +1,4 @@
 
-import { FiTrendingDown, FiTrendingUp } from 'react-icons/fi'
 import { useDashBoardQuery } from '../../hooks/useDashBoardQuery';
 
 
@@ -8,14 +7,14 @@ import { useDashBoardQuery } from '../../hooks/useDashBoardQuery';
 
 const DashBoardStatus = () => {
 
-    const {data} = useDashBoardQuery()
-   
+    const { data } = useDashBoardQuery()
+
 
     return (
         <>
-            <Card title='Total Income' value={data?.totalIncome} pillText='12.5%' trend='up' />
-            <Card title='Total Expense' value={data?.totalExpense} pillText='12.5%' trend='down' />
-            <Card title='Total Balance' value={data?.totalBalance} pillText='12.5%' trend='up' />
+            <Card title='Total Income' value={data?.totalIncome}   variant="income" />
+            <Card title='Total Expense' value={data?.totalExpense}   variant="expense" />
+            <Card title='Total Balance' value={data?.totalBalance}   variant="balance" />
         </>
     )
 }
@@ -23,27 +22,32 @@ const DashBoardStatus = () => {
 export default DashBoardStatus
 
 
-const Card = ({ title, value, pillText, trend }: { title: string, value: number, pillText: string, trend: "up" | "down" }) => {
+const Card = (
+    { title, value, variant }: { title: string, value: number, variant: "income" | "expense" | "balance" }) => {
 
     const formater = new Intl.NumberFormat('en-US', {
         style: "currency",
         currency: "USD"
     })
+
+    const colorStyles = {
+
+        income: "bg-gradient-to-r from-green-500 to-emerald-600 text-white",
+        expense: "bg-gradient-to-r from-red-500 to-rose-600 text-white",
+        balance: "bg-gradient-to-r from-blue-500 to-indigo-600 text-white"
+    }
     return (
-        <div className='p-4 col-span-4 border border-stone-300  bg-white/90 rounded-xl'>
+        <div className={`p-4 col-span-4 border border-slate-200 rounded-xl ${colorStyles[variant]}`}>
             <div className='flex mb-8 items-start justify-between'>
                 <div>
 
-                    <h3 className='text-stone-500 mb-2 text-sm'>{title}</h3>
-                    <p className='text-3xl  font-semibold'>{formater.format(value)}</p>
+                    <h3 className='text-slate-100 mb-2 text-sm'>{title}</h3>
+                    <p className='text-3xl  text-white font-semibold'>{formater.format(value)}</p>
                 </div>
-                <span className={`text-xs flex items-center gap-1 font-medium px-2 py-1 rounded ${trend === "up" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}`}>
-                    {pillText}
-                    {trend === "up" ? <FiTrendingUp /> : <FiTrendingDown />}
-                </span>
+            
 
             </div>
-            <p className='text-xs text-stone-500'>period</p>
+            <p className='text-xs text-slate-100'>last 30 days</p>
 
 
         </div>

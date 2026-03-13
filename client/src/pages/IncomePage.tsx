@@ -108,7 +108,7 @@ const IncomePage = () => {
 
   return (
     <div className="relative min-h-screen ">
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex justify-between items-center mb-2">
         <h1 className="text-2xl font-bold text-gray-800">System Overview</h1>
         <button
           className="px-5 py-3 bg-blue-600 text-white rounded-lg hover:bg-slate-800 hover:text-white transition-all active:scale-95"
@@ -207,7 +207,7 @@ const IncomePage = () => {
       </div> */}
 
 
-      <div className="mt-5 grid grid-cols-12 gap-6 ">
+      <div className=" grid grid-cols-12 gap-6 ">
         <StatsCards total={total} weekly={weekly} today={today} />
         <Graph />
         <RecentTransaction incomes={income} isLoading={isLoading}/>

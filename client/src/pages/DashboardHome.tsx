@@ -14,13 +14,10 @@ const DashboardHome = () => {
       <div className="grid grid-cols-12 gap-6">
      <DashBoardStatus/>
         
-      </div>
-      
-      {/* <div className="mt-8 mb-6 bg-white border border-gray-200 rounded-xl h-64 flex items-center justify-center text-gray-400 italic">
-        Chart placeholder...
-      </div> */}
+    
       <DashboardGraph/>
       <AllTransaction/>
+      </div>
     </div>
   );
 };
