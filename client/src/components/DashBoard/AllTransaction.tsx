@@ -31,7 +31,10 @@ const AllTransaction = () => {
               date={new Date(income.createdAt)}
               order={index + 1}
             />
+
           ))}
+
+          
         </tbody>
 
       </table>
