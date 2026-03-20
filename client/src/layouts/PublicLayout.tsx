@@ -1,11 +1,11 @@
 import { Outlet } from "react-router-dom";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/HomePage/Navbar";
 
 const PublicLayout = () => (
-  <div className="flex flex-col min-h-screen ">
+  <div className="flex flex-col min-h-screen  ">
     <Navbar />
 
-    <main className="grow ">
+    <main className="grow">
       <Outlet />
     </main>
 
