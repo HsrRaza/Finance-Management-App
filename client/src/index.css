@@ -1,51 +1,13 @@
 @import "tailwindcss";
 
-@layer base {
-  :root {
-    --color-primary: #A82323;
-    --color-primary-light: #FF7070;
-    --color-primary-lighter: #FFA6A6;
-    --color-background: #FFEDC7;
-  }
-}
+/* Import Inter font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Manrope:wght@200..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Sora:wght@100..800&family=Space+Grotesk:wght@300..700&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
 
-@layer utilities {
-  .bg-primary {
-    background-color: var(--color-primary);
-  }
-  .bg-primary-light {
-    background-color: var(--color-primary-light);
-  }
-  .bg-primary-lighter {
-    background-color: var(--color-primary-lighter);
-  }
-  .bg-background {
-    background-color: var(--color-background);
-  }
-  
-  .text-primary {
-    color: var(--color-primary);
-  }
-  .text-primary-light {
-    color: var(--color-primary-light);
-  }
-  .text-primary-lighter {
-    color: var(--color-primary-lighter);
-  }
-  .text-background {
-    color: var(--color-background);
-  }
-  
-  .border-primary {
-    border-color: var(--color-primary);
-  }
-  .border-primary-light {
-    border-color: var(--color-primary-light);
-  }
-  .border-primary-lighter {
-    border-color: var(--color-primary-lighter);
-  }
-  .border-background {
-    border-color: var(--color-background);
+@theme {
+  --font-sans: "Inter", sans-serif;
+}
+@layer base {
+  body {
+    font-family: var(--font-sans);
   }
 }
