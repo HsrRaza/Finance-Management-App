@@ -1,5 +1,5 @@
 import { BarChart3, LayoutDashboard, LogOut, Settings } from 'lucide-react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 
 
@@ -11,6 +11,10 @@ const navItems = [
 ];
 
 const SideBar = ({ isMobileMenuOpen, setIsMobileMenuOpen }: { isMobileMenuOpen: boolean, setIsMobileMenuOpen: (open: boolean) => void }) => {
+
+    
+
+    const navigate = useNavigate()
     return (
         <div>
             {isMobileMenuOpen && (
@@ -27,7 +31,7 @@ const SideBar = ({ isMobileMenuOpen, setIsMobileMenuOpen }: { isMobileMenuOpen: 
         ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"}
       `}>
                 <div className="h-16 flex items-center px-6 border-b border-gray-800">
-                    <span className="text-xl font-bold bg-linear-to-r from-blue-500 to-indigo-500 bg-clip-text text-transparent">
+                    <span className="text-xl font-bold bg-linear-to-r from-blue-500 to-indigo-500 bg-clip-text text-transparent" onClick={()=> navigate("/")}>
                         FinTrackr
                     </span>
                 </div>
