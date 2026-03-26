@@ -33,7 +33,7 @@ export const Graph = () => {
   if(isLoading) return <p>Loading...</p>
   
   return (
-    <div className="col-span-8 min-w-0 overflow-hidden  border border-stone-300 rounded-xl bg-white/90 ">
+    <div className="col-span-12 min-w-0 overflow-hidden  border border-stone-300 rounded-xl bg-white/90 ">
       <div className="p-4">
         <h3 className="flex items-center gap-1.5 font-medium">
           <FiUser /> Activity

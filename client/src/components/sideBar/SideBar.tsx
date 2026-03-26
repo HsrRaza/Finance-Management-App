@@ -22,7 +22,7 @@ const SideBar = ({ isMobileMenuOpen, setIsMobileMenuOpen }: { isMobileMenuOpen: 
 
             {/* Sidebar */}
             <aside className={`
-        fixed inset-y-0 left-0 z-50  w-64 md:w-86 bg-slate-950    border-r border-gray-800 text-gray-200 transform transition-transform duration-300 ease-in-out
+        fixed inset-y-0 left-0 z-50  w-64 md:w-86 bg-neutral-50    border-r border-gray-800 text-gray-200 transform transition-transform duration-300 ease-in-out
         md:relative md:translate-x-0
         ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"}
       `}>
@@ -41,7 +41,7 @@ const SideBar = ({ isMobileMenuOpen, setIsMobileMenuOpen }: { isMobileMenuOpen: 
                             onClick={() => setIsMobileMenuOpen(false)}
                             className={({ isActive }) => `
                 flex items-center gap-3 px-4 py-3 rounded-lg transition-all group-hover:text-white
-                ${isActive ? "bg-blue-600/90 text-white shadow-md" : "text-gray-400 hover:bg-gray-800 hover:text-white"}
+                ${isActive ? "bg-blue-600/90 text-white shadow-md" : " text-black hover:bg-gray-800 hover:text-white"}
               `}
                         >
                             {item.icon}
@@ -51,7 +51,7 @@ const SideBar = ({ isMobileMenuOpen, setIsMobileMenuOpen }: { isMobileMenuOpen: 
                 </nav>
 
                 <div className="p-4 border-t border-stone-200 bottom-0">
-                    <button className="flex items-center gap-3 w-full px-4 py-3 text-gray-400 hover:bg-gray-800 hover:text-red-400 rounded-lg transition-colors">
+                    <button className="flex items-center gap-3 w-full px-4 py-3 text-black hover:bg-gray-800 hover:text-red-400 rounded-lg transition-colors">
                         <LogOut size={20} />
                         <span className="font-medium">Logout</span>
                     </button>

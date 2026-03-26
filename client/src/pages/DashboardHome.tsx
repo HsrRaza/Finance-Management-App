@@ -1,5 +1,4 @@
 import AllTransaction from "../components/DashBoard/AllTransaction";
-import { DashboardGraph } from "../components/DashBoard/DashboardGraph";
 import DashBoardStatus from "../components/DashBoard/DashBoardStatus";
 
 
@@ -15,7 +14,7 @@ const DashboardHome = () => {
      <DashBoardStatus/>
         
     
-      <DashboardGraph/>
+      {/* <DashboardGraph/> */}
       <AllTransaction/>
       </div>
     </div>

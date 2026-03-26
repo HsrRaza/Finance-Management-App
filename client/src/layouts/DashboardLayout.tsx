@@ -45,7 +45,7 @@ const [isMobileMenuOpen ,setIsMobileMenuOpen] = useState(false)
         </header>
 
         {/* Dynamic Page Content */}
-        <main className="flex-1 overflow-y-hidden p-4 md:p-8 bg-slate-100">
+        <main className="flex-1 overflow-y-hidden p-4 md:p-8 bg-white">
           <div className="mx-auto">
             <Outlet />
           </div>
