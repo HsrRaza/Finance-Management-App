@@ -1,221 +1,108 @@
-import { useMemo, useState, type FormEvent } from "react"
-import RecentTransaction from "../components/RecentTransaction";
-import StatsCards from "../components/StatsCards";
-import { useIncomeQuery } from "../hooks/useIncomeQuery";
-import { useAddIncome } from "../hooks/useIncomeMutation";
-import { Graph } from "../components/Graph";
+import React, { useState } from "react";
+import { Plus, Download, TrendingUp, Calendar, ArrowUpRight } from "lucide-react";
+import { useIncomes } from "../features/income/hooks/useIncomes";
+import { downloadIncomeExcelApi } from "../features/income/api/income.api";
+import { StatCard } from "../features/dashboard/components/StatCard";
+import { TransactionList } from "../features/transactions/components/TransactionList";
+import { AddTransactionModal } from "../features/transactions/components/AddTransactionModal";
+import { Button } from "../components/ui/Button";
+import { toast } from "sonner";
 
+export const IncomePage: React.FC = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { incomes, isLoading, deleteIncome } = useIncomes();
 
+  const totalIncome = incomes.reduce((acc, curr) => acc + (Number(curr.amount) || 0), 0);
 
-export interface Income {
-  _id: string;
-  source: string;
-  amount: number;
-  icon?: string;
-  userId: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
-
-
-interface IncomeFormData {
-  amount: string;
-  description: string;
-}
-
-const IncomePage = () => {
-
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [formData, setFormData] = useState<IncomeFormData>({
-    amount: "",
-    description: ""
-  })
-
-
-
-
-  const { data: income = [] ,isLoading } = useIncomeQuery()
-  const addIncomeMutation = useAddIncome()
-
-
-  const { weekly, today, total } = useMemo(() => {
-
-    const now = new Date();
-    const todayStr = now.toDateString();
-    const sevenDaysAgo = new Date(now.setDate(now.getDate() - 7));
-
-
-    return {
-      today: (income as Income[])
-        .filter((i: Income) => new Date(i.createdAt).toDateString() === todayStr)
-        .reduce((acc: number, curr: Income) => acc + Number((curr.amount) || 0), 0),
-
-      weekly: (income as Income[])
-        .filter((i: Income) => new Date(i.createdAt) >= sevenDaysAgo)
-        .reduce((acc: number, curr: Income) => acc + (Number(curr.amount) || 0), 0),
-
-      total: (income as Income[]).reduce((acc: number, curr: Income) => acc + (Number(curr.amount) || 0), 0)
-
+  const handleDownloadExcel = async () => {
+    try {
+      const blob = await downloadIncomeExcelApi();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "Income_Report.xlsx";
+      a.click();
+      toast.success("Income statement exported!");
+    } catch {
+      toast.error("Failed to download Excel report.");
     }
+  };
 
-
-  }, [income])
-
-
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-
-
-    const { name, value } = e.target
-    console.log(name, value)
-
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value
-    }))
-
-
-  }
-
-
-
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-
-    e.preventDefault()
-
-    const finalAmount = parseFloat(formData.amount);
-    console.log("submitting :", { ...formData, amount: finalAmount });
-
-
-    if (!finalAmount || finalAmount <= 0 || !formData.description) {
-      return
-    }
-
-    // tanstacKQuery 
-     addIncomeMutation.mutate({
-      source: formData.description,
-      amount: finalAmount,
-    })
-
-
-    setIsModalOpen(false);
-    setFormData({ amount: "", description: "" });
-
-
-
-  }
+  const formattedIncomes = incomes.map((i) => ({
+    ...i,
+    type: "income" as const,
+    title: i.source,
+  }));
 
   return (
-    <div className="relative min-h-screen ">
-      <div className="flex justify-between items-center mb-2">
-        <h1 className="text-2xl font-bold text-gray-800">System Overview</h1>
-        <button
-          className="px-5 py-3 bg-blue-600 text-white rounded-lg hover:bg-slate-800 hover:text-white transition-all active:scale-95"
-          onClick={() => setIsModalOpen(true)}
-        >
-          {addIncomeMutation.isPending ? "saving" : "Save Income"}
-        </button>
-      </div>
-      {addIncomeMutation.error && (
-        <p className="text-red-500">{addIncomeMutation.error.message}</p>
-      )}
-
-      {/* --- POP-UP MODAL --- */}
-      {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
-          {/* 1. Dark Backdrop */}
-          <div
-            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
-            onClick={() => setIsModalOpen(false)}
-          ></div>
-
-          {/* 2. The Form Card */}
-          <div className="relative bg-stone-200 p-8 rounded-xl shadow-2xl w-full max-w-md mx-4 animate-in fade-in zoom-in duration-200">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold text-gray-800 ">Add Income</h2>
-              <button
-                onClick={() => setIsModalOpen(false)}
-                className="text-gray-400 hover:text-gray-600 text-2xl"
-              >
-                &times;
-              </button>
-            </div>
-
-            <form onSubmit={handleSubmit}>
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Amount</label>
-                <input
-                  name="amount"
-                  autoFocus
-                  type="number"
-                  placeholder="$0.00"
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-                  value={formData.amount}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
-                <input
-                  name="description"
-                  type="text"
-                  placeholder="e.g. Freelance project"
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
-                  value={formData.description}
-                  onChange={handleChange}
-                />
-              </div>
-
-              {addIncomeMutation.error && (
-                <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-600 text-sm rounded-lg">
-                  {addIncomeMutation.error.message}
-                </div>
-              )}
-
-              <div className="flex gap-3">
-                <button
-                  type="button"
-                  onClick={() => setIsModalOpen(false)}
-                  className="flex-1 px-4 py-3 bg-gray-100 text-gray-700 rounded-lg font-semibold hover:bg-gray-200"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={addIncomeMutation.isPending}
-                  className="flex-1 px-4 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 shadow-lg shadow-blue-200 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {addIncomeMutation.isPending ? "Saving..." : "Save Income"}
-                </button>
-              </div>
-            </form>
+    <div className="space-y-6">
+      {/* Editorial Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#E2E0D8] dark:border-[#2E3742]">
+        <div>
+          <div className="flex items-center gap-1.5 text-[11px] font-bold text-[#1F5C4A] dark:text-[#34A887] uppercase tracking-widest mb-0.5">
+            <TrendingUp className="h-3.5 w-3.5" />
+            Revenue & Inflow Ledger
           </div>
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#17212B] dark:text-[#F3F4F6]">
+            Income Streams
+          </h1>
         </div>
-      )}
 
-      {/* <div className={`grid grid-cols-12 gap-6 `}>
-        {[1, 2, 3].map((card) => (
-          <div key={card} className="col-span-4 p-6 bg-white rounded-xl border border-gray-200 shadow-sm">
-            <p className="text-sm text-gray-500 font-medium">Total Revenue</p>
-            <p className="text-3xl font-bold text-gray-900 mt-1">$24,500</p>
-            <div className="mt-4 text-xs font-semibold text-green-600 bg-green-50 px-2 py-1 rounded inline-block">
-              +12.5% vs last month
-            </div>
-          </div>
-        ))}
-      </div> */}
-
-
-      <div className=" grid grid-cols-12 gap-6 ">
-        <StatsCards total={total} weekly={weekly} today={today} />
-        <Graph />
-        <RecentTransaction incomes={income} isLoading={isLoading}/>
+        <div className="flex items-center gap-3">
+          <Button variant="secondary" onClick={handleDownloadExcel} className="gap-2">
+            <Download className="h-4 w-4" />
+            Export Excel
+          </Button>
+          <Button variant="primary" onClick={() => setIsModalOpen(true)} className="gap-2">
+            <Plus className="h-4 w-4" />
+            Add Income
+          </Button>
+        </div>
       </div>
 
+      {/* Metric Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <StatCard
+          title="Total Income Inflow"
+          amount={totalIncome}
+          changePercentage={12.4}
+          icon={<ArrowUpRight className="h-4.5 w-4.5" />}
+          variant="income"
+          isLoading={isLoading}
+        />
+        <StatCard
+          title="Recorded Income Entries"
+          amount={incomes.length}
+          periodLabel="total items logged"
+          icon={<Calendar className="h-4.5 w-4.5" />}
+          variant="balance"
+          isLoading={isLoading}
+        />
+        <StatCard
+          title="Average Inflow per Entry"
+          amount={incomes.length > 0 ? totalIncome / incomes.length : 0}
+          icon={<TrendingUp className="h-4.5 w-4.5" />}
+          variant="income"
+          isLoading={isLoading}
+        />
+      </div>
 
+      {/* Income Records List */}
+      <TransactionList
+        transactions={formattedIncomes}
+        isLoading={isLoading}
+        title="Income Journal Entries"
+        onDelete={(id) => deleteIncome(id)}
+      />
+
+      {/* Modal */}
+      <AddTransactionModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        defaultType="income"
+      />
     </div>
-  )
-}
+  );
+};
 
-export default IncomePage
+export default IncomePage;

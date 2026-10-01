@@ -1,13 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
-/* Import Inter font */
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Manrope:wght@200..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Sora:wght@100..800&family=Space+Grotesk:wght@300..700&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
-
-@theme {
-  --font-sans: "Inter", sans-serif;
-}
 @layer base {
-  body {
-    font-family: var(--font-sans);
+  :root {
+    --background: #F7F5EF;
+    --surface: #EFEEE8;
+    --card: #FFFFFF;
+    --foreground: #17212B;
+    --secondary-foreground: #66717C;
+    --muted-foreground: #929A9F;
+
+    --primary: #1F5C4A;
+    --primary-foreground: #FFFFFF;
+    --primary-hover: #17483A;
+
+    --accent: #B86B4B;
+    --accent-foreground: #FFFFFF;
+
+    --positive: #1F5C4A;
+    --positive-bg: #EAF3EF;
+
+    --negative: #B94A4A;
+    --negative-bg: #FDF2F2;
+
+    --warning: #C8832B;
+    --warning-bg: #FDF7EC;
+
+    --border: #E2E0D8;
+    --input: #E2E0D8;
+    --ring: #1F5C4A;
+    --radius: 0.5rem;
   }
+
+  .dark {
+    --background: #12161A;
+    --surface: #1B2128;
+    --card: #1F262E;
+    --foreground: #F3F4F6;
+    --secondary-foreground: #9CA3AF;
+    --muted-foreground: #6B7280;
+
+    --primary: #2A7B64;
+    --primary-foreground: #FFFFFF;
+    --primary-hover: #339176;
+
+    --accent: #CF7C5A;
+    --accent-foreground: #FFFFFF;
+
+    --positive: #34A887;
+    --positive-bg: #162B24;
+
+    --negative: #E06C6C;
+    --negative-bg: #2C1A1A;
+
+    --warning: #E5A14B;
+    --warning-bg: #2A2114;
+
+    --border: #2E3742;
+    --input: #2E3742;
+    --ring: #2A7B64;
+  }
+
+  * {
+    border-color: var(--border);
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    overflow-x: hidden;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+.font-serif-editorial {
+  font-family: 'Newsreader', Georgia, Cambria, 'Times New Roman', Times, serif;
+}
+
+/* Custom scrollbar - restrained & clean */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D8D5CB;
+  border-radius: 4px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #2E3742;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #B5B2A6;
 }

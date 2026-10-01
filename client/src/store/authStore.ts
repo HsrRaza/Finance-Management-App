@@ -1,25 +1,39 @@
-import { create } from "zustand"
-import { persist } from "zustand/middleware"
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+import type { User } from "../types/auth";
 
 interface AuthState {
-  accessToken: string | null
-  setToken: (token: string) => void
-  logout: () => void
+  user: User | null;
+  accessToken: string | null;
+  isAuthenticated: boolean;
+  setAuth: (user: User, accessToken: string) => void;
+  setUser: (user: User) => void;
+  setToken: (token: string) => void;
+  logout: () => void;
 }
 
-const useAuthStore = create<AuthState>()(
+export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
+      user: null,
       accessToken: null,
+      isAuthenticated: false,
+
+      setAuth: (user, accessToken) =>
+        set({ user, accessToken, isAuthenticated: true }),
+
+      setUser: (user) => set({ user, isAuthenticated: true }),
 
       setToken: (token) =>
-        set({ accessToken: token }),
+        set({ accessToken: token, isAuthenticated: true }),
 
       logout: () =>
-        set({ accessToken: null })
+        set({ user: null, accessToken: null, isAuthenticated: false }),
     }),
-    { name: "auth-storage" }
+    {
+      name: "finance-tracker-auth",
+    }
   )
-)
+);
 
-export default useAuthStore
+export default useAuthStore;

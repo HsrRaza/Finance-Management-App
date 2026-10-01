@@ -1,24 +1,14 @@
-import express from "express"
-import {
-    addIncome,
-    getAllIncome,
-    downloadIncomeExecel,
-    deleteIncome
+import { Router } from "express";
+import { addIncome, getAllIncome, deleteIncome, downloadIncomeExecel } from "../controllers/income.controller";
+import { protect } from "../middlewares/auth.middleware";
+import { validate } from "../middlewares/validate.middleware";
+import { addIncomeSchema } from "../validators/income.validator";
 
-} from "../controllers/income.controller"
+const router = Router();
 
-import { protect } from "../middleware/auth.middleware";
+router.post("/add", protect, validate(addIncomeSchema), addIncome);
+router.get("/get", protect, getAllIncome);
+router.get("/downloadExcel", protect, downloadIncomeExecel);
+router.delete("/:id", protect, deleteIncome);
 
-const router= express.Router()
-
-router.post("/add" ,protect, addIncome)
-router.get("/get", protect, getAllIncome)
-router.get("/downloadExcel", protect, downloadIncomeExecel)
-router.delete("/:id", protect,deleteIncome)
-
-
-
-
-
-
-export default router
+export default router;

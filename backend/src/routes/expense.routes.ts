@@ -1,18 +1,14 @@
 import { Router } from "express";
+import { addExpense, getExpenses, deleteExpense, downloadExcel } from "../controllers/expense.controller";
+import { protect } from "../middlewares/auth.middleware";
+import { validate } from "../middlewares/validate.middleware";
+import { addExpenseSchema } from "../validators/expense.validator";
 
-import { protect } from "../middleware/auth.middleware";
-import {
-    addExpense,
-    getExpenses,
-    downloadExcel,
-    deleteExpense
-} from "../controllers/expense.controller"
+const router = Router();
 
-const router = Router()
+router.post("/add", protect, validate(addExpenseSchema), addExpense);
+router.get("/get", protect, getExpenses);
+router.get("/downloadExcel", protect, downloadExcel);
+router.delete("/:id", protect, deleteExpense);
 
-router.post("/add", protect, addExpense)
-router.get("/get", protect, getExpenses)
-router.get("/downloadExcel", protect, downloadExcel)
-router.delete("/:id", protect, deleteExpense)
-
-export default router
+export default router;

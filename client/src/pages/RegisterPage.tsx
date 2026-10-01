@@ -1,90 +1,99 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { useState } from "react";
-import { useRegister } from "../hooks/useRegister";
+import React, { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { User as UserIcon, Mail, Lock, Wallet, ArrowRight } from "lucide-react";
+import { useAuth } from "../features/auth/hooks/useAuth";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "../components/ui/Card";
+import { Input } from "../components/ui/Input";
+import { Button } from "../components/ui/Button";
+import { toast } from "sonner";
 
-const RegisterPage = () => {
- 
-  const registerMutation = useRegister();
+export const RegisterPage: React.FC = () => {
+  const navigate = useNavigate();
+  const { register, isRegistering } = useAuth();
 
-  const [formData, setFormData] = useState({
-    name:"",
-    email: "",
-    password: "",
-  });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     try {
-      await registerMutation.mutateAsync(formData);
-
-      // redirect after login
-    //   navigate("/dashboard");
-
-    } catch (error) {
-      console.log("Login failed");
+      await register({ name, email, password });
+      toast.success("Account created successfully!");
+      navigate("/dashboard");
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Registration failed";
+      toast.error(msg);
     }
   };
 
   return (
-    <div className="max-w-md mx-auto mt-20 bg-white p-6 rounded-lg shadow">
-      <h2 className="text-xl font-bold mb-4">Login</h2>
+    <div className="min-h-[80vh] flex items-center justify-center p-4">
+      <Card className="w-full max-w-md p-2">
+        <CardHeader className="text-center space-y-2 pb-4">
+          <div className="mx-auto flex h-11 w-11 items-center justify-center rounded-lg bg-[#1F5C4A] text-white">
+            <Wallet className="h-5 w-5" />
+          </div>
+          <CardTitle className="text-2xl font-extrabold tracking-tight">Create Account</CardTitle>
+          <CardDescription>
+            Join FinanceTracker to manage your personal financial health.
+          </CardDescription>
+        </CardHeader>
 
-      <form onSubmit={handleSubmit}>
-        <input
-          name="name"
-          type="name"
-          placeholder="name"
-          className="w-full p-2 border mb-3"
-          value={formData.name}
-          onChange={handleChange}
-        />
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <Input
+              label="Full Name"
+              type="text"
+              placeholder="John Doe"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              icon={<UserIcon className="h-4 w-4" />}
+              required
+            />
 
-        <input
-          name="email"
-          type="email"
-          placeholder="Email"
-          className="w-full p-2 border mb-3"
-          value={formData.email}
-          onChange={handleChange}
-        />
+            <Input
+              label="Email Address"
+              type="email"
+              placeholder="you@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              icon={<Mail className="h-4 w-4" />}
+              required
+            />
 
+            <Input
+              label="Password"
+              type="password"
+              placeholder="Minimum 6 characters"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              icon={<Lock className="h-4 w-4" />}
+              required
+            />
 
-        <input
-          name="password"
-          type="password"
-          placeholder="Password"
-          className="w-full p-2 border mb-3"
-          value={formData.password}
-          onChange={handleChange}
-        />
+            <Button
+              type="submit"
+              variant="primary"
+              className="w-full mt-2 gap-2"
+              isLoading={isRegistering}
+            >
+              Sign Up
+              <ArrowRight className="h-4 w-4" />
+            </Button>
+          </form>
 
-        <button
-          type="submit"
-          disabled={registerMutation.isPending}
-          className="w-full bg-blue-600 text-white p-2 rounded"
-        >
-          {registerMutation.isPending ? "Registering..." : "Register"}
-        </button>
-
-        {registerMutation.isError && (
-          <p className="text-red-500 mt-2">
-            Registration failed. Check your credentials.
-          </p>
-        )}
-        {registerMutation.isSuccess && (
-          <p className="text-green-500 mt-2">
-            Registration successful.
-          </p>
-        )}
-      </form>
+          <div className="mt-6 text-center text-xs text-[#66717C] dark:text-[#9CA3AF]">
+            Already have an account?{" "}
+            <Link
+              to="/login"
+              className="font-bold text-[#1F5C4A] dark:text-[#34A887] hover:underline"
+            >
+              Log In
+            </Link>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };
